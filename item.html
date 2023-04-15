@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;600&display=swap');
+    body {
+      font-family: 'Fira Sans', sans-serif;
+      color: white;
+      background-color: black;
+      font-size: larger;
+    }
+
+    .moni {
+      color: goldenrod;
+    }
+  </style>
+</head>
+<body>
+  <h1>Economic Information About Enchanted Acacia Wood</h1>
+  <div id="prices"></div>
+  <script>
+     fetch('https://api.slothpixel.me/api/skyblock/bazaar/ENCHANTED_ACACIA_LOG')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('prices');
+          container.innerHTML = `
+            <h2>Prices</h2>
+            <p>Buy Price: <span class="moni">${data["buy_summary"][0]["pricePerUnit"]} coins</span> (Amount: ${data["buy_summary"][0]["amount"]} Enchanted Acacia Logs)</p>
+            <p>Sell Price: <span class="moni">${data["sell_summary"][0]["pricePerUnit"]} coins</span> (Amount: ${data["sell_summary"][0]["amount"]} Enchanted Acacia Logs)</p>
+          `; console.log(data)
+        })
+        .catch(error => {
+          console.error(error);
+          const container = document.getElementById('prices');
+          container.innerHTML = '<p>Error fetching data.</p>';
+        });
+  </script>
+</body>
+</html>

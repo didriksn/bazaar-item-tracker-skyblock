@@ -1,0 +1,81 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enchanted Acacia Wood Prices</title>
+
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;600&display=swap');
+
+
+body {
+  background-color: black;
+}
+
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+form div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type="text"] {
+  border: none;
+  border-radius: 25px;
+  font-size: 28px;
+  padding: 16px 24px;
+  margin-right: 10px;
+  width: 600px;
+  background-color: #292929;
+  color: #fff;
+  font-family: "Fira Sans", sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0 0 16px rgba(37, 37, 37, 0.5);
+}
+
+button[type="submit"] {
+  background-color: #5b7bd9;
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 16px 32px;
+  font-family: "Fira Sans", sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+  background-color: #3c5ca5;
+}
+
+  </style>
+</head>
+  <body>
+    <form onsubmit="searchRedirect(); return false;">
+      <input type="text" id="searchInput" placeholder="Enter search query" autocomplete="off">
+      <button type="submit">Search</button>
+    </form>  
+    <script>
+
+function searchRedirect() {
+    var searchQuery = document.getElementById("searchInput").value;
+    window.location.href = "item.html";
+}
+    </script>
+  </body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>prices</title>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;600&display=swap');
@@ -41,14 +41,8 @@
             itemsByName[itemob.name] = itemob;
         }
         const itemo = itemsByName[item];
-        if (itemo) {
-            word = itemo.id;
-            var temId = word;
-            var item = itemo.name;
-            console.log(`The ID of ${searchQuery} is ${word}`);
-        } else {
-
-            if (word && !word.includes("_")) {
+        if (!itemo) {
+          if (word && !word.includes("_")) {
                 word = word.replace(/ /g, "_")
             }
             word = word.toUpperCase();
@@ -64,10 +58,16 @@
                 item = item.replace("Enchantment", "");
             }
             word = item;
+        } else {
+          word = itemo.id;
+            var temId = word;
+            var item = itemo.name;
+            console.log(`The ID of ${searchQuery} is ${word}`);
         }
         fetch(`https://api.slothpixel.me/api/skyblock/bazaar/${temId}`)
             .then(response => response.json())
             .then(data => {
+                document.title = `${item} prices`
                 let buyOrSellSummaryWord = item;
                 if (data["buy_summary"][0]["amount"] > 1) {
                     buyOrSellSummaryWord += "s"

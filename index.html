@@ -25,6 +25,7 @@ form {
   flex-direction: column;
   height: 100vh;
   margin-top: 20px;
+  width: 100vw;
 }
 
 form div {
@@ -73,6 +74,7 @@ button[type="submit"]:hover {
   color: white;
   font-family: "Fira Sans", sans-serif;
   font-size: 5vmin;
+  text-align: center;
 }
 
 .note {
@@ -85,7 +87,7 @@ button[type="submit"]:hover {
 </head>
   <body>
     <form onsubmit="searchRedirect(); return false;">
-      <h1 class="header">Search for a Hypixel Skyblock item</h1>
+      <h1 class="header">Search for a Hypixel Skyblock item from the bazaar</h1>
       <div class="type"><input type="text" id="searchInput" placeholder="Search for item" autocomplete="off">
       <button type="submit">Search</button></div>
       <div class="note">Note: Format should be like the item is named in the game, or by using the productId of the item</div>

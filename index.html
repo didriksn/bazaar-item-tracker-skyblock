@@ -11,14 +11,20 @@
 
 body {
   background-color: black;
+  overflow: hidden;
 }
 
 
 form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
-  align-items: center;
+  flex-direction: column;
   height: 100vh;
+  margin-top: 20px;
 }
 
 form div {
@@ -63,18 +69,34 @@ button[type="submit"]:hover {
   background-color: #3c5ca5;
 }
 
+.header {
+  color: white;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 50px;
+}
+
+.note {
+  font-family: "Fira Sans", sans-serif;
+  color: rgb(202, 202, 202);
+  margin-top: 20px;
+}
+
   </style>
 </head>
   <body>
     <form onsubmit="searchRedirect(); return false;">
-      <input type="text" id="searchInput" placeholder="Enter search query" autocomplete="off">
-      <button type="submit">Search</button>
+      <h1 class="header">Search for a Hypixel Skyblock item</h1>
+      <div class="type"><input type="text" id="searchInput" placeholder="Search for item" autocomplete="off">
+      <button type="submit">Search</button></div>
+      <div class="note">Note: Format should be like the item is named in the game, or by using the productId of the item</div>
+      <div class="note">Casing does not matter</div>
     </form>  
+
     <script>
 
 function searchRedirect() {
     var searchQuery = document.getElementById("searchInput").value;
-    window.location.href = "item.html";
+    window.location.href = "item.html?query=" + searchQuery;
 }
     </script>
   </body>

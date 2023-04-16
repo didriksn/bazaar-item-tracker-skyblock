@@ -22,67 +22,73 @@
 </head>
 <body>
   <div id="prices"></div>
-  <script>
+  <script >
 
-// Translates variations of ItemIDs
-fetch(`https://api.slothpixel.me/api/skyblock/items`)
-.then(response => response.json())
-.then(data => {
-  var searchQuery = new URLSearchParams(window.location.search).get("query");
-  var word = searchQuery;
-  let words = searchQuery.toLowerCase().split(" ");
-  for (let i = 0; i < words.length; i++) {
-    words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-  }
-  var item = words.join(" ");
-    const itemsByName = {};
-    for (let key in data) {
-      const itemob = data[key];
-      itemsByName[itemob.name] = itemob;
-    }
-    const itemo = itemsByName[item];
-    if (itemo) {
-      word = itemo.id;
-      var temId = word;
-      var item = itemo.name;
-      console.log(`The ID of ${searchQuery} is ${word}`);
-    } else {
+    // Translates variations of ItemIDs
+    fetch(`https://api.slothpixel.me/api/skyblock/items`)
+    .then(response => response.json())
+    .then(data => {
+        var searchQuery = new URLSearchParams(window.location.search).get("query");
+        var word = searchQuery;
+        let words = searchQuery.toLowerCase().split(" ");
+        for (let i = 0; i < words.length; i++) {
+            words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+        }
+        var item = words.join(" ");
+        const itemsByName = {};
+        for (let key in data) {
+            const itemob = data[key];
+            itemsByName[itemob.name] = itemob;
+        }
+        const itemo = itemsByName[item];
+        if (itemo) {
+            word = itemo.id;
+            var temId = word;
+            var item = itemo.name;
+            console.log(`The ID of ${searchQuery} is ${word}`);
+        } else {
 
-      if (word && !word.includes("_")) { word = word.replace(/ /g, "_") }
-      word = word.toUpperCase();
-      var temId = word;
+            if (word && !word.includes("_")) {
+                word = word.replace(/ /g, "_")
+            }
+            word = word.toUpperCase();
+            var temId = word;
 
 
-      let words = word.toLowerCase().split("_");
-      for (let i = 0; i < words.length; i++) {
-        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-      }
-      var item = words.join(" ");
-      if (item.includes("Enchantment")) { item = item.replace("Enchantment", ""); }
-      word = item;
-    }
-      fetch(`https://api.slothpixel.me/api/skyblock/bazaar/${temId}`)
-      .then(response => response.json())
-      .then(data => {
-            let buyOrSellSummaryWord = item;
-            if (data["buy_summary"][0]["amount"] > 1) { buyOrSellSummaryWord += "s"}
-            const container = document.getElementById('prices');
-            container.innerHTML = `
+            let words = word.toLowerCase().split("_");
+            for (let i = 0; i < words.length; i++) {
+                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+            }
+            var item = words.join(" ");
+            if (item.includes("Enchantment")) {
+                item = item.replace("Enchantment", "");
+            }
+            word = item;
+        }
+        fetch(`https://api.slothpixel.me/api/skyblock/bazaar/${temId}`)
+            .then(response => response.json())
+            .then(data => {
+                let buyOrSellSummaryWord = item;
+                if (data["buy_summary"][0]["amount"] > 1) {
+                    buyOrSellSummaryWord += "s"
+                }
+                const container = document.getElementById('prices');
+                container.innerHTML = `
               <h1>Economic Information About ${item}</h1>
               <h2>Prices</h2>
               <p>Buy Price: <span class="moni">${data["buy_summary"][0]["pricePerUnit"]} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in buy order)</p>
               <p>Sell Price: <span class="moni">${data["sell_summary"][0]["pricePerUnit"]} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in sell offer)</p>
             `;
-          })
-          .catch(error => {
-            console.error(error);
-            const container = document.getElementById('prices');
-            container.innerHTML = '<h1>ITEM IS INVALID! THE ITEM YOU WROTE IS IN FACT, INVALID! THAT IS A FALSY ITEM! ITEM IS NOT CORRECT WRITTEN! CHECK YOUR SPELLING NEXT TIME! THAT ITEM IS CURRENTLY NOT ON HYPIXEL SKYBLOCK! YOU NEED TO WRITE AN ITEM THAT IS A VALID ITEM IN HYPIXEL SKYBLOCK! HOW CAN YOU MAKE SUCH A MISTAKE! I AM EXTREMELY DISSAPOINTED IN YOU! I CANT THINK OF OTHER WAYS TO TELL YOU THAT YOU DID IN FACT NOT WRITE A VALID HYPIXEL SKYBLOCK ITEM! YOU PROBABLY DON&#39;T KNOW WHAT THE ITEMID NAME FOR THE ITEM YOU ARE LOOKING FOR IS, WHICH I DON&#39;T BLAME YOU FOR, BUT I SUGGEST NEXT TIME YOU COME ON THIS WEBSITE AND WRITE DOWN AN ITEM YOU WOULD LIKE TO KNOW THE PRICE OF, WRITE A VALID ITEMID! IF YOU WANT TO KNOW THE ITEMID OF A CERTAIN ITEM THAT YOU DON&#39;T KNOW THE ITEMID OF, YOU CAN PROBABLY JUST SEARCH IT UP ON GOOGLE AND FIND IT SOMEWHERE! LET ME REMIND YOU THAT YOU DON&#39;T HAVE TO WRITE THE ITEMID LITERALLY! LIKE YOU CAN JUST WRITE "enchanted acacia log", YOU DON&#39;T HAVE TO WRITE "ENCHANTED_ACACIA_LOG"! SO JUST REMEMBER THAT NEXT TIME! OR MAYBE YOU WROTE SOMETHING IN PLURAL THAT WASN&#39;T SUPPOSED TO BE PLURAL! OR MAYBE YOU WROTE SOMETHING LIKE "ENCHANTMENT_PROTECTION_VI" INSTEAD OF "ENCHANTMENT_PROTECTION_6" WHICH WOULD CAUSE THIS TO COME UP, SO REMEMBER TO USE ARABIC NUMERALS AND NOT ROMAN NUMERALS WHEN REFERRING TO ENCHANTMENT BOOKS!</h1>';
-          });
-  })
-  .catch(error => {
-    console.error(error);
-  });
-  </script>
+            })
+            .catch(error => {
+                console.error(error);
+                const container = document.getElementById('prices');
+                container.innerHTML = '<h1>ITEM IS INVALID! THE ITEM YOU WROTE IS IN FACT, INVALID! THAT IS A FALSY ITEM! ITEM IS NOT CORRECT WRITTEN! CHECK YOUR SPELLING NEXT TIME! THAT ITEM IS CURRENTLY NOT ON HYPIXEL SKYBLOCK! YOU NEED TO WRITE AN ITEM THAT IS A VALID ITEM IN HYPIXEL SKYBLOCK! HOW CAN YOU MAKE SUCH A MISTAKE! I AM EXTREMELY DISSAPOINTED IN YOU! I CANT THINK OF OTHER WAYS TO TELL YOU THAT YOU DID IN FACT NOT WRITE A VALID HYPIXEL SKYBLOCK ITEM! YOU PROBABLY DON&#39;T KNOW WHAT THE ITEMID NAME FOR THE ITEM YOU ARE LOOKING FOR IS, WHICH I DON&#39;T BLAME YOU FOR, BUT I SUGGEST NEXT TIME YOU COME ON THIS WEBSITE AND WRITE DOWN AN ITEM YOU WOULD LIKE TO KNOW THE PRICE OF, WRITE A VALID ITEMID! IF YOU WANT TO KNOW THE ITEMID OF A CERTAIN ITEM THAT YOU DON&#39;T KNOW THE ITEMID OF, YOU CAN PROBABLY JUST SEARCH IT UP ON GOOGLE AND FIND IT SOMEWHERE! LET ME REMIND YOU THAT YOU DON&#39;T HAVE TO WRITE THE ITEMID LITERALLY! LIKE YOU CAN JUST WRITE "enchanted acacia log", YOU DON&#39;T HAVE TO WRITE "ENCHANTED_ACACIA_LOG"! SO JUST REMEMBER THAT NEXT TIME! OR MAYBE YOU WROTE SOMETHING IN PLURAL THAT WASN&#39;T SUPPOSED TO BE PLURAL! OR MAYBE YOU WROTE SOMETHING LIKE "ENCHANTMENT_PROTECTION_VI" INSTEAD OF "ENCHANTMENT_PROTECTION_6" WHICH WOULD CAUSE THIS TO COME UP, SO REMEMBER TO USE ARABIC NUMERALS AND NOT ROMAN NUMERALS WHEN REFERRING TO ENCHANTMENT BOOKS!</h1>';
+            });
+    })
+    .catch(error => {
+        console.error(error);
+    }); 
+</script>
 </body>
 </html>

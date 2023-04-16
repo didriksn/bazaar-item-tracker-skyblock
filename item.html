@@ -76,8 +76,8 @@
                 container.innerHTML = `
               <h1>Economic Information About ${item}</h1>
               <h2>Prices</h2>
-              <p>Buy Price: <span class="moni">${data["buy_summary"][0]["pricePerUnit"]} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in buy order)</p>
-              <p>Sell Price: <span class="moni">${data["sell_summary"][0]["pricePerUnit"]} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in sell offer)</p>
+              <p>Buy Price: <span class="moni">${data["buy_summary"][0]["pricePerUnit"]} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
+              <p>Sell Price: <span class="moni">${data["sell_summary"][0]["pricePerUnit"]} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in last sell offer)</p>
             `;
             })
             .catch(error => {

@@ -7,6 +7,7 @@ Check Price Information for any Hypixel Skyblock Item in the Bazaar
 3. You must use spaces between multi-word items if you search for an item with the name, but you can choose between spaces and underscores if searching with ItemIDs (In a case where the ItemID is the same as the actual item name, you can still choose between underscores and spaces)
 4. Enchantems must have the word "Enchantment" in front of it since it's a part of every enchantment ItemID, and enchantments don't have names like other items do
 5. Must be specific with the spelling of the item that you are looking for
+6. When searching for essence, you have to search like "essence wither" and not "wither essence"
 
 ___Everything___ _else you can think of is possible (unless you find something, then in that case please report it to me)_
 

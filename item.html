@@ -5,14 +5,41 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>price</title>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;600&display=swap');
     body {
+      background-color: black;
+    }
+
+    .prices {
       font-family: 'Fira Sans', sans-serif;
       color: white;
-      background-color: black;
       font-size: larger;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .goback {
+      filter: invert();
+      background-color: white;
+      font-family: "Fira Sans", sans-serif;
+      /* font-weight: bold; */
+      border: none;
+      font-size: 50px;
+      cursor: pointer;
+      padding: 1vmin;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: font-size 0.5s;
+    }
+
+    .goback:hover {
+      font-size: 55px;
     }
 
     .moni {
@@ -21,8 +48,9 @@
   </style>
 </head>
 <body>
-  <div id="prices"></div>
-  <script >
+  <div class="prices" id="prices"></div>
+  <button class="goback" onclick="clicked()" id="goback"></button>
+  <script>
 
     // Translates variations of ItemIDs
     fetch(`https://api.slothpixel.me/api/skyblock/items`)
@@ -37,7 +65,7 @@
         var item = words.join(" ");
         const itemsByName = {};
         for (let key in data) {
-            const itemob = data[key];
+            let itemob = data[key];
             itemsByName[itemob.name] = itemob;
         }
         const itemo = itemsByName[item];
@@ -46,6 +74,13 @@
                 word = word.replace(/ /g, "_")
             }
             word = word.toUpperCase();
+
+            if (word.includes("ESSENCE")) {
+                const wordss = word.split("_");
+                [wordss[0], wordss[1]] = [wordss[1], wordss[0]];
+                word = wordss.join(" ");
+                word = word.replace(/ /g, "_")
+            }
             var temId = word;
 
 
@@ -54,6 +89,13 @@
                 words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
             }
             var item = words.join(" ");
+
+            if (item.includes("Essence")) {
+                const wordss = item.split(" ");
+                [wordss[0], wordss[1]] = [wordss[1], wordss[0]];
+                item = wordss.join(" ");
+            }
+
             if (item.includes("Enchantment")) {
                 item = item.replace("Enchantment", "");
             }
@@ -83,16 +125,31 @@
               <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
               <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in last sell offer)</p>
             `;
+                const goback = document.getElementById("goback");
+                goback.innerHTML = `<i class="fa fa-long-arrow-left"></i> Go Back (Esc)`
             })
             .catch(error => {
                 console.error(error);
                 const container = document.getElementById('prices');
-                container.innerHTML = '<h1>ITEM IS INVALID! THE ITEM YOU WROTE IS IN FACT, INVALID! THAT IS A FALSY ITEM! ITEM IS NOT CORRECT WRITTEN! CHECK YOUR SPELLING NEXT TIME! THAT ITEM IS CURRENTLY NOT ON HYPIXEL SKYBLOCK! YOU NEED TO WRITE AN ITEM THAT IS A VALID ITEM IN HYPIXEL SKYBLOCK! HOW CAN YOU MAKE SUCH A MISTAKE! I AM EXTREMELY DISSAPOINTED IN YOU! I CANT THINK OF OTHER WAYS TO TELL YOU THAT YOU DID IN FACT NOT WRITE A VALID HYPIXEL SKYBLOCK ITEM! YOU PROBABLY DON&#39;T KNOW WHAT THE ITEMID NAME FOR THE ITEM YOU ARE LOOKING FOR IS, WHICH I DON&#39;T BLAME YOU FOR, BUT I SUGGEST NEXT TIME YOU COME ON THIS WEBSITE AND WRITE DOWN AN ITEM YOU WOULD LIKE TO KNOW THE PRICE OF, WRITE A VALID ITEMID! IF YOU WANT TO KNOW THE ITEMID OF A CERTAIN ITEM THAT YOU DON&#39;T KNOW THE ITEMID OF, YOU CAN PROBABLY JUST SEARCH IT UP ON GOOGLE AND FIND IT SOMEWHERE! LET ME REMIND YOU THAT YOU DON&#39;T HAVE TO WRITE THE ITEMID LITERALLY! LIKE YOU CAN JUST WRITE "enchanted acacia log", YOU DON&#39;T HAVE TO WRITE "ENCHANTED_ACACIA_LOG"! SO JUST REMEMBER THAT NEXT TIME! OR MAYBE YOU WROTE SOMETHING IN PLURAL THAT WASN&#39;T SUPPOSED TO BE PLURAL! OR MAYBE YOU WROTE SOMETHING LIKE "ENCHANTMENT_PROTECTION_VI" INSTEAD OF "ENCHANTMENT_PROTECTION_6" WHICH WOULD CAUSE THIS TO COME UP, SO REMEMBER TO USE ARABIC NUMERALS AND NOT ROMAN NUMERALS WHEN REFERRING TO ENCHANTMENT BOOKS!</h1>';
+                container.innerHTML = '<h1>invalid item</h1>';
+
+                const goback = document.getElementById("goback");
+                goback.innerHTML = `<i class="fa fa-long-arrow-left"></i> Go Back (Esc)`
             });
     })
     .catch(error => {
         console.error(error);
     }); 
+
+function clicked() {
+    window.location.href = "index.html"
+}
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") {
+    clicked();
+  }
+});
 </script>
 </body>
 </html>

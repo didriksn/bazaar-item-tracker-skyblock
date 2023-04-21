@@ -48,6 +48,19 @@
     .moni {
       color: goldenrod;
     }
+
+	.up,
+	.down {
+		margin-top: 5vmin;
+	}
+
+	.up i {
+		color: lime;
+	}
+
+	.down i {
+		color: red;
+	}
   </style>
 </head>
 <body>
@@ -112,6 +125,15 @@
         fetch(`https://api.slothpixel.me/api/skyblock/bazaar/${temId}`)
             .then(response => response.json())
             .then(data => {
+
+				let sellMovingWeek = data["quick_status"]["sellMovingWeek"];
+				let buyMovingWeek = data["quick_status"]["buyMovingWeek"];
+
+				
+
+				console.log(sellMovingWeek)
+
+
                 document.title = `${item} prices`
                 let buyOrSellSummaryWord = item;
                 if (data["buy_summary"][0]["amount"] > 1) {
@@ -122,12 +144,26 @@
                 let sellPrice = data["sell_summary"][0]["pricePerUnit"];
 
                 const container = document.getElementById('prices');
-                container.innerHTML = `
-              <h1>Economic Information About ${item}</h1>
-              <h2>Prices</h2>
-              <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
-              <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in last sell offer)</p>
-            `;
+
+				if (sellMovingWeek < buyMovingWeek) {
+				let percent = Math.ceil(((buyMovingWeek - sellMovingWeek) / buyMovingWeek) * 100);
+					container.innerHTML = `
+				  <h1>Economic Information About ${item}</h1>
+				  <h2>Prices</h2>
+				  <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
+				  <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in last sell offer)</p>
+				  <p class="up"><i class="fa fa-arrow-circle-up"></i> ${percent}% more sold than bought (prices on its way up)</p>
+				`;
+				} else {
+				let percent = Math.ceil(((sellMovingWeek - buyMovingWeek) / sellMovingWeek) * 100);
+					container.innerHTML = `
+				  <h1>Economic Information About ${item}</h1>
+				  <h2>Prices</h2>
+				  <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
+				  <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in last sell offer)</p>
+				  <p class="down"><i class="fa fa-arrow-circle-down"></i> ${percent}% more bought than sold (prices on its way down)</p>
+				`;
+				}
                 const goback = document.getElementById("goback");
                 goback.innerHTML = `<i class="fa fa-long-arrow-left"></i> Go Back (Esc)`
             })

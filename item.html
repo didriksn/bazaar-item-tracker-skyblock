@@ -17,7 +17,7 @@
       color: white;
       font-size: 2.7vmin;
       position: absolute;
-      top: 45%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
@@ -31,17 +31,18 @@
       font-family: "Fira Sans", sans-serif;
       /* font-weight: bold; */
       border: none;
-      font-size: 5vmin;
+      font-size: 3vmin;
       cursor: pointer;
       padding: 1vmin;
-      position: absolute;
+      position: relative;
       top: 0; 
       left: 0;
       transition: font-size 600ms;
+      margin-bottom: 5vmin;
     }
 
     .goback:hover {
-      font-size: 5.5vmin;
+      font-size: 3.5vmin;
       transition: font-size 300ms;
     }
 
@@ -61,11 +62,58 @@
 	.down i {
 		color: red;
 	}
+
+  .type {
+    display: flex;
+    justify-content: center;
+    /* margin-top: 3vmin; */
+  }
+
+  input[type="text"] {
+  border: none;
+  border-radius: 25px;
+  font-size: 20px;
+  padding: 16px 24px;
+  margin-right: 10px;
+  width: 50vmin;
+  background-color: #292929;
+  color: #fff;
+  font-family: "Fira Sans", sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0 0 16px rgba(37, 37, 37, 0.5);
+}
+
+button[type="submit"] {
+  background-color: #5b7bd9;
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 16px 32px;
+  font-family: "Fira Sans", sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+  background-color: #3c5ca5;
+}
   </style>
 </head>
 <body>
   <div class="prices" id="prices"></div>
+
   <button class="goback" onclick="clicked()" id="goback"></button>
+
+  <div class="type"><input type="text" id="searchInput" placeholder="Search again?" autocomplete="off">
+  <button onclick="querySwap()" type="submit">Search</button></div>
   <script>
 
     // Translates variations of ItemIDs
@@ -165,7 +213,7 @@
 				`;
 				}
                 const goback = document.getElementById("goback");
-                goback.innerHTML = `<i class="fa fa-long-arrow-left"></i> Go Back (Esc)`
+                goback.innerHTML = `<i class="fa fa-long-arrow-left"></i> Home (Esc)`
             })
             .catch(error => {
                 console.error(error);
@@ -185,9 +233,19 @@ function clicked() {
     document.title = "Bazaar Price Tracker";
 }
 
+function querySwap() {
+  var newQuery = document.getElementById("searchInput").value;
+  searchQuery = newQuery;
+  window.location.href = "item.html?query=" + searchQuery;
+}
+
 document.addEventListener("keydown", function(event) {
   if (event.key === "Escape") {
     clicked();
+  }
+
+  if (event.key === "Enter" && document.activeElement === document.getElementById("searchInput")) {
+    querySwap();
   }
 });
 </script>

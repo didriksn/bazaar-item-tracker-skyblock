@@ -152,7 +152,7 @@
 				  <h2>Prices</h2>
 				  <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
 				  <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in last sell offer)</p>
-				  <p class="up"><i class="fa fa-arrow-circle-up"></i> ${percent}% more sold than bought (prices on its way up)</p>
+				  <p class="up"><i class="fa fa-arrow-circle-up"></i> ${percent}% more bought than sold (prices on its way up)</p>
 				`;
 				} else {
 				let percent = Math.ceil(((sellMovingWeek - buyMovingWeek) / sellMovingWeek) * 100);
@@ -161,7 +161,7 @@
 				  <h2>Prices</h2>
 				  <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
 				  <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in last sell offer)</p>
-				  <p class="down"><i class="fa fa-arrow-circle-down"></i> ${percent}% more bought than sold (prices on its way down)</p>
+				  <p class="down"><i class="fa fa-arrow-circle-down"></i> ${percent}% more sold than bought (prices on its way down)</p>
 				`;
 				}
                 const goback = document.getElementById("goback");

@@ -187,6 +187,11 @@ button[type="submit"]:hover {
                 if (data["buy_summary"][0]["amount"] > 1) {
                     buyOrSellSummaryWord += "s"
                 }
+		
+		let sellSummaryWord = item;
+                if (data["sell_summary"][0]["amount"] > 1) {
+                    sellSummaryWord += "s"
+                }
                 
                 let buyPrice = data["buy_summary"][0]["pricePerUnit"];
                 let sellPrice = data["sell_summary"][0]["pricePerUnit"];
@@ -199,7 +204,7 @@ button[type="submit"]:hover {
 				  <h1>Economic Information About ${item}</h1>
 				  <h2>Prices</h2>
 				  <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
-				  <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in last sell offer)</p>
+				  <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${sellSummaryWord} sold in last sell offer)</p>
 				  <p class="up"><i class="fa fa-arrow-circle-up"></i> ${percent}% more bought than sold (prices on its way up)</p>
 				`;
 				} else {

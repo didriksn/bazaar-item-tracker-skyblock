@@ -17,43 +17,37 @@
       color: white;
       font-size: 2.7vmin;
       position: absolute;
-      top: 50%;
+      top: 45%;
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
-      margin-top: 10vh;
       width: 100vw;
     }
 
     .goback {
       background-color: black;
-      color: white;
+      color: rgb(189, 189, 189);
       font-family: "Fira Sans", sans-serif;
       /* font-weight: bold; */
       border: none;
-      font-size: 3vmin;
+      font-size: 5vmin;
       cursor: pointer;
       padding: 1vmin;
-      position: relative;
-      top: 0; 
+      position: absolute;
+      bottom: 0;
       left: 0;
       transition: font-size 600ms;
       margin-bottom: 5vmin;
     }
 
     .goback:hover {
-      font-size: 3.5vmin;
+      font-size: 5.5vmin;
       transition: font-size 300ms;
     }
 
     .moni {
       color: goldenrod;
     }
-
-	.up,
-	.down {
-		margin-top: 5vmin;
-	}
 
 	.up i {
 		color: lime;
@@ -66,13 +60,14 @@
   .type {
     display: flex;
     justify-content: center;
-    /* margin-top: 3vmin; */
+    
+    margin-top: 5vmin;
   }
 
   input[type="text"] {
   border: none;
   border-radius: 25px;
-  font-size: 20px;
+  font-size: 3vmin;
   padding: 16px 24px;
   margin-right: 10px;
   width: 50vmin;
@@ -95,7 +90,7 @@ button[type="submit"] {
   border-radius: 25px;
   color: #fff;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 3vmin;
   padding: 16px 32px;
   font-family: "Fira Sans", sans-serif;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -104,6 +99,46 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #3c5ca5;
+}
+
+
+.popup {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.popup-content {
+  display: grid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(15, 15, 15);
+  padding: 20px;
+  color: white;
+  border-radius: 5px;
+  font-family: 'Fira Sans', sans-serif;
+  color: white;
+  font-size: 2.7vmin;
+  text-align: center;
+}
+
+.moreInfo {
+  font-family: "Fira Sans", sans-serif;
+  border-radius: 50px;
+  background-color: transparent;
+  border: 3px solid #a3a3a3;
+  color: #c2c2c2;
+  overflow: hidden;
+  font-size: 2.5vmin;
+  padding: 1vmin;
+  cursor: pointer;
+  margin-top: 5vmin;
 }
   </style>
 </head>
@@ -114,145 +149,9 @@ button[type="submit"]:hover {
 
   <div class="type"><input type="text" id="searchInput" placeholder="Search again?" autocomplete="off">
   <button onclick="querySwap()" type="submit">Search</button></div>
-  <script>
 
-    // Translates variations of ItemIDs
-    fetch(`https://api.slothpixel.me/api/skyblock/items`)
-    .then(response => response.json())
-    .then(data => {
-        var searchQuery = new URLSearchParams(window.location.search).get("query");
-        var word = searchQuery;
-        let words = searchQuery.toLowerCase().split(" ");
-        for (let i = 0; i < words.length; i++) {
-            words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-        }
-        var item = words.join(" ");
-        const itemsByName = {};
-        for (let key in data) {
-            let itemob = data[key];
-            itemsByName[itemob.name] = itemob;
-        }
-        const itemo = itemsByName[item];
-        if (!itemo) {
-          if (word && !word.includes("_")) {
-                word = word.replace(/ /g, "_")
-            }
-            word = word.toUpperCase();
+  <div class="etellerannet" id="etellerannet"></div>
 
-            if (word.includes("ESSENCE")) {
-                const wordss = word.split("_");
-                [wordss[0], wordss[1]] = [wordss[1], wordss[0]];
-                word = wordss.join(" ");
-                word = word.replace(/ /g, "_")
-            }
-            var temId = word;
-
-
-            let words = word.toLowerCase().split("_");
-            for (let i = 0; i < words.length; i++) {
-                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-            }
-            var item = words.join(" ");
-
-            if (item.includes("Essence")) {
-                const wordss = item.split(" ");
-                [wordss[0], wordss[1]] = [wordss[1], wordss[0]];
-                item = wordss.join(" ");
-            }
-
-            if (item.includes("Enchantment")) {
-                item = item.replace("Enchantment", "");
-            }
-            word = item;
-        } else {
-          word = itemo.id;
-            var temId = word;
-            var item = itemo.name;
-            console.log(`The ID of ${searchQuery} is ${word}`);
-        }
-        fetch(`https://api.slothpixel.me/api/skyblock/bazaar/${temId}`)
-            .then(response => response.json())
-            .then(data => {
-
-				let sellMovingWeek = data["quick_status"]["sellMovingWeek"];
-				let buyMovingWeek = data["quick_status"]["buyMovingWeek"];
-
-				
-
-				console.log(sellMovingWeek)
-
-
-                document.title = `${item} prices`
-                let buyOrSellSummaryWord = item;
-                if (data["buy_summary"][0]["amount"] > 1) {
-                    buyOrSellSummaryWord += "s"
-                }
-		
-		let sellSummaryWord = item;
-                if (data["sell_summary"][0]["amount"] > 1) {
-                    sellSummaryWord += "s"
-                }
-                
-                let buyPrice = data["buy_summary"][0]["pricePerUnit"];
-                let sellPrice = data["sell_summary"][0]["pricePerUnit"];
-
-                const container = document.getElementById('prices');
-
-				if (sellMovingWeek < buyMovingWeek) {
-				let percent = Math.ceil(((buyMovingWeek - sellMovingWeek) / buyMovingWeek) * 100);
-					container.innerHTML = `
-				  <h1>Economic Information About ${item}</h1>
-				  <h2>Prices</h2>
-				  <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
-				  <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${sellSummaryWord} sold in last sell offer)</p>
-				  <p class="up"><i class="fa fa-arrow-circle-up"></i> ${percent}% more bought than sold (prices on its way up)</p>
-				`;
-				} else {
-				let percent = Math.ceil(((sellMovingWeek - buyMovingWeek) / sellMovingWeek) * 100);
-					container.innerHTML = `
-				  <h1>Economic Information About ${item}</h1>
-				  <h2>Prices</h2>
-				  <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
-				  <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${buyOrSellSummaryWord} sold in last sell offer)</p>
-				  <p class="down"><i class="fa fa-arrow-circle-down"></i> ${percent}% more sold than bought (prices on its way down)</p>
-				`;
-				}
-                const goback = document.getElementById("goback");
-                goback.innerHTML = `<i class="fa fa-long-arrow-left"></i> Home (Esc)`
-            })
-            .catch(error => {
-                console.error(error);
-                const container = document.getElementById('prices');
-                container.innerHTML = '<h1>invalid item</h1>';
-
-                const goback = document.getElementById("goback");
-                goback.innerHTML = `<i class="fa fa-long-arrow-left"></i> Go Back (Esc)`
-            });
-    })
-    .catch(error => {
-        console.error(error);
-    }); 
-
-function clicked() {
-    window.location.href = "index.html";
-    document.title = "Bazaar Price Tracker";
-}
-
-function querySwap() {
-  var newQuery = document.getElementById("searchInput").value;
-  searchQuery = newQuery;
-  window.location.href = "item.html?query=" + searchQuery;
-}
-
-document.addEventListener("keydown", function(event) {
-  if (event.key === "Escape") {
-    clicked();
-  }
-
-  if (event.key === "Enter" && document.activeElement === document.getElementById("searchInput")) {
-    querySwap();
-  }
-});
-</script>
+  <script src="script.js"></script>
 </body>
 </html>

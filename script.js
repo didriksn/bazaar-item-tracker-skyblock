@@ -17,10 +17,42 @@
         }
         const itemo = itemsByName[item];
         if (!itemo) {
+          word = word.toUpperCase();
+
+          
+          const romanToArabicMap = {
+            "X": 10,
+            "IX": 9,
+            "VIII": 8,
+            "VII": 7,
+            "VI": 6,
+            "V": 5,
+            "IV": 4,
+            "III": 3,
+            "II": 2,
+            "I": 1
+          };
+          
+          const regex = new RegExp(Object.keys(romanToArabicMap).join("|") + "(?![A-Za-z])", "g");
+
+          word = word.replace(regex, match => romanToArabicMap[match] || match);
+
+          console.log(word);
+
+          if (/[0-9]+/g.test(word) && !word.includes("ENCHANTMENT") && !word.endsWith("0")) {
+            word = "enchantment" + " " + word;
+          }
+
           if (word && !word.includes("_")) {
                 word = word.replace(/ /g, "_")
             }
+
             word = word.toUpperCase();
+
+
+            
+
+            
 
             if (word.includes("ESSENCE")) {
                 const wordss = word.split("_");
@@ -29,6 +61,7 @@
                 word = word.replace(/ /g, "_")
             }
             var temId = word;
+            console.log(temId)
 
 
             let words = word.toLowerCase().split("_");
@@ -59,7 +92,7 @@
 
 				let sellMovingWeek = data["quick_status"]["sellMovingWeek"];
 				let buyMovingWeek = data["quick_status"]["buyMovingWeek"];
-
+         
 				
 
 				console.log(sellMovingWeek)
@@ -120,9 +153,11 @@
                 if (currentPrice < otherPriceToCompare) {
                   var gain = Math.ceil(((otherPriceToCompare - currentPrice) / otherPriceToCompare) * 100);
                   var eo = "down";
+                  var increaseDecrease = "decrease";
                 } else {
                   var gain = Math.ceil(((currentPrice - otherPriceToCompare) / currentPrice) * 100);
                   var eo = "up";
+                  var increaseDecrease = "increase";
                 }
 
 					container.innerHTML = `
@@ -154,7 +189,7 @@
 
             <div class="lastThirty">
               <h2>Compared to ${sellSumLength + 1}${numberEnding} sell offer</h2>
-              <p class="${eo}"><i class="fa fa-arrow-circle-${eo}"></i> ${gain}%</p>
+              <p class="${eo}"><i class="fa fa-arrow-circle-${eo}"></i> ${gain}% ${increaseDecrease}</p>
               <p><span class="moni">${currentPrice.toLocaleString()}</span> coins &#40;current&#41; vs <span class="moni">${otherPriceToCompare.toLocaleString()}</span> coins &#40;${sellSumLength + 1}${numberEnding}&#41;</p>
               
             </div>

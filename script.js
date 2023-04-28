@@ -126,6 +126,9 @@
                 }
 
 					container.innerHTML = `
+
+          <i class="reload fa fa-refresh"></i>
+
           <div>
 				  <h1>Economic Information About ${item}</h1>
 				  <h2>Prices</h2>
@@ -171,6 +174,10 @@
                     document.querySelector('.popup').style.display = 'none';
                   }
                 });
+
+                document.querySelector('.reload').addEventListener('click', function() {
+                  window.location.reload();
+                })
 
             })
             .catch(error => {

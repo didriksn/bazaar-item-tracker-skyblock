@@ -19,8 +19,6 @@ Check Price Information for any Hypixel Skyblock Item in the Bazaar
   'SAND:1'
 </details>
 
-___Everything___ _you can think of is possible (unless you find something, then in that case please report it to me)_
-
 
 
 

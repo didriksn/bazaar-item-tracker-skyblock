@@ -8,24 +8,33 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;600&display=swap');
+    
     body {
-      background-color: black;
+      background-color: rgb(5, 5, 5);
     }
 
     .prices {
       font-family: 'Fira Sans', sans-serif;
       color: white;
       font-size: 2.7vmin;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: absolute;
       top: 45%;
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
-      width: 100vw;
+      border: solid white 2px;
+      border-radius: 30px;
+      margin-top: 5vmin;
+      min-width: 70%;
+      min-height: 60%;
+      padding: 0 2vmin;
     }
 
     .goback {
-      background-color: black;
+      background-color: transparent;
       color: rgb(189, 189, 189);
       font-family: "Fira Sans", sans-serif;
       /* font-weight: bold; */
@@ -113,7 +122,8 @@ button[type="submit"]:hover {
 }
 
 .popup-content {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -126,6 +136,16 @@ button[type="submit"]:hover {
   color: white;
   font-size: 2.7vmin;
   text-align: center;
+  min-width: 55%;
+}
+
+.bottom {
+  flex: 1;
+  display: flex;
+}
+
+.bottom div {
+  flex: 2;
 }
 
 .moreInfo {
@@ -140,10 +160,14 @@ button[type="submit"]:hover {
   cursor: pointer;
   margin-top: 5vmin;
 }
+
+.priceChanges {
+  text-align: center;
+}
   </style>
 </head>
 <body>
-  <div class="prices" id="prices"></div>
+  <div class="card"><div class="prices" id="prices"></div></div>
 
   <button class="goback" onclick="clicked()" id="goback"></button>
 
@@ -151,6 +175,7 @@ button[type="submit"]:hover {
   <button onclick="querySwap()" type="submit">Search</button></div>
 
   <div class="etellerannet" id="etellerannet"></div>
+  
 
   <script src="script.js"></script>
 </body>

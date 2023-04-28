@@ -98,22 +98,64 @@
 
                   var movingWeek = data["quick_status"]["sellMovingWeek"].toLocaleString() + " sold vs " + data["quick_status"]["buyMovingWeek"].toLocaleString() + " bought";
                 }
+                let arr = data["sell_summary"].map(a=>a["pricePerUnit"]);
+                let sellSumLength = arr.length;
+
+                if (sellSumLength.toString().at(-1) == 1) {
+                  var numberEnding = "st";
+                } else if (sellSumLength.toString().at(-1) == 2) {
+                  var numberEnding = "nd";
+                } else if (sellSumLength.toString().at(-1) == 3) {
+                  var numberEnding = "rd";
+                } else {
+                  var numberEnding = "th";
+                }
+
+
+
+                sellSumLength -= 1;
+                let currentPrice = arr[0]
+                let otherPriceToCompare = arr[sellSumLength];
+
+                if (currentPrice < otherPriceToCompare) {
+                  var gain = Math.ceil(((otherPriceToCompare - currentPrice) / otherPriceToCompare) * 100);
+                  var eo = "down";
+                } else {
+                  var gain = Math.ceil(((currentPrice - otherPriceToCompare) / currentPrice) * 100);
+                  var eo = "up";
+                }
 
 					container.innerHTML = `
+          <div>
 				  <h1>Economic Information About ${item}</h1>
 				  <h2>Prices</h2>
 				  <p>Buy Price: <span class="moni">${buyPrice.toLocaleString()} coins</span> (${data["buy_summary"][0]["amount"]} ${buyOrSellSummaryWord} bought in last buy order)</p>
 				  <p>Sell Price: <span class="moni">${sellPrice.toLocaleString()} coins</span> (${data["sell_summary"][0]["amount"]} ${sellSummaryWord} sold in last sell offer)</p>
 				  
           <button id="moreInfo" class="moreInfo">More info</button>
+
+          </div>
 				`;
 
         etEllerAnnet.innerHTML = `
         <div class="popup"> 
           <div class="popup-content">
-            <h2>This week</h3>
-            <p class="${wtfJegGirOppHvaSkalJegEngangKalleDette}"><i class="fa fa-arrow-circle-${wtfJegGirOppHvaSkalJegEngangKalleDette}"></i> ${stringThatIsCorrect}</p>
-            <p>${movingWeek}</p>
+          <h1 class="priceChanges">Price changes</h1>
+            <div class="bottom">
+            <div>
+              <h2>This week</h2>
+              <p class="${wtfJegGirOppHvaSkalJegEngangKalleDette}"><i class="fa fa-arrow-circle-${wtfJegGirOppHvaSkalJegEngangKalleDette}"></i> ${stringThatIsCorrect}</p>
+              <p>${movingWeek}</p>
+              
+            </div>
+
+            <div class="lastThirty">
+              <h2>Compared to ${sellSumLength + 1}${numberEnding} sell offer</h2>
+              <p class="${eo}"><i class="fa fa-arrow-circle-${eo}"></i> ${gain}%</p>
+              <p><span class="moni">${currentPrice.toLocaleString()}</span> coins &#40;current&#41; vs <span class="moni">${otherPriceToCompare.toLocaleString()}</span> coins &#40;${sellSumLength + 1}${numberEnding}&#41;</p>
+              
+            </div>
+            </div>
           </div>
         </div>
         `
